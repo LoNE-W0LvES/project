@@ -143,6 +143,7 @@ export async function renderProjectList() {
   `;
 
   loadProjectList();
+  setupFormListeners();
 
   window.updateActiveNav('projects');
 }
@@ -604,9 +605,10 @@ window.hideEditProjectModal = function() {
   document.getElementById('edit-realtime-fields-container').innerHTML = '';
 };
 
-window.addEventListener('DOMContentLoaded', () => {
+function setupFormListeners() {
   const createForm = document.getElementById('create-project-form');
-  if (createForm) {
+  if (createForm && !createForm.dataset.listenerAttached) {
+    createForm.dataset.listenerAttached = 'true';
     createForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -646,7 +648,8 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   const editForm = document.getElementById('edit-project-form');
-  if (editForm) {
+  if (editForm && !editForm.dataset.listenerAttached) {
+    editForm.dataset.listenerAttached = 'true';
     editForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -678,4 +681,4 @@ window.addEventListener('DOMContentLoaded', () => {
       loadProjectList();
     });
   }
-});
+}
